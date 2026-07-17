@@ -1,0 +1,412 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model user {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  password     String?
+  name         String?
+  phone        String?   @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  confirmAt    DateTime?
+  roleId       String?
+  code_country String?
+  googleId     String?   @unique
+  provider     String    @default("local")
+  country      String?
+  gender       String?
+  orders       Order[]
+  adresses     adress[]
+  reviews      review[]
+  role         role?     @relation(fields: [roleId], references: [id])
+
+  @@index([createdAt])
+}
+
+model adress {
+  id     String @id @default(uuid())
+  name   String
+  userId String
+  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([name, userId])
+}
+
+model blog {
+  id               String              @id @default(uuid())
+  date             String
+  image            String
+  srcSet           String[]
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  slug             String              @unique
+  isFeatured       Boolean             @default(false)
+  productId        String?
+  relatedBlogs     BlogRelation[]      @relation("BlogSource")
+  relatedByBlogs   BlogRelation[]      @relation("BlogTarget")
+  product          product?            @relation(fields: [productId], references: [id])
+  blogTranslations blog_translations[]
+
+  @@index([productId])
+  @@index([slug])
+}
+
+model BlogRelation {
+  id       String @id @default(uuid())
+  sourceId String
+  targetId String
+  source   blog   @relation("BlogSource", fields: [sourceId], references: [id], onDelete: Cascade)
+  target   blog   @relation("BlogTarget", fields: [targetId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceId, targetId])
+  @@index([sourceId])
+  @@index([targetId])
+}
+
+model blog_translations {
+  id               String   @id @default(uuid())
+  blogId           String
+  lang             String
+  title            String
+  meta_title       String
+  meta_description String
+  meta_keywords    String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  category         String
+  excerpt          String
+  href             String
+  blog             blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  @@unique([blogId, lang])
+  @@index([blogId])
+}
+
+model category {
+  id           String                  @id @default(uuid())
+  image        String
+  status       String                  @default("ACTIVE")
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  srcSet       String[]
+  products     ProductCategory[]
+  translations category_translations[]
+}
+
+model category_translations {
+  id               String   @id @default(uuid())
+  categoryId       String
+  lang             String
+  title            String
+  slug             String
+  href             String
+  meta_title       String
+  meta_description String
+  meta_keywords    String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  category         category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([categoryId, lang])
+  @@index([slug])
+  @@index([categoryId])
+}
+
+model product {
+  id           String               @id @default(uuid())
+  oldPrice     Float
+  newPrice     Float
+  currency     String
+  isOnSale     Boolean              @default(false)
+  brand        String
+  sku          String               @unique
+  badge        String?
+  stockStatus  String               @default("in_stock")
+  backImage    String
+  frontImage   String
+  media        Json[]
+  limitedOffer Json?
+  rating       Float                @default(0)
+  reviewCount  Int                  @default(0)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  featured     Boolean              @default(false)
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
+  categories   ProductCategory[]
+  blogs        blog[]
+  translations productTranslation[]
+  reviews      review[]
+
+  @@index([sku])
+  @@index([stockStatus])
+  @@index([newPrice])
+  @@index([featured])
+}
+
+model ProductCategory {
+  id         String   @id @default(uuid())
+  productId  String
+  categoryId String
+  createdAt  DateTime @default(now())
+  category   category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  product    product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, categoryId])
+  @@index([productId])
+  @@index([categoryId])
+}
+
+model productTranslation {
+  id               String   @id @default(uuid())
+  productId        String
+  lang             String
+  title            String
+  slug             String
+  href             String
+  shortDescription String
+  contentSections  Json[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  product          product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, lang])
+  @@index([slug])
+  @@index([productId])
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  userId    String?    @unique
+  cartToken String?    @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  cartId    String
+  productId String
+  quantity  Int
+  price     Float
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   product @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
+  @@index([cartId])
+}
+
+model Order {
+  id                  String      @id @default(uuid())
+  orderNumber         Int         @unique @default(autoincrement())
+  userId              String?
+  guestEmail          String?
+  cartToken           String?
+  subtotal            Float
+  total               Float
+  currency            String      @default("aed")
+  couponCode          String?
+  discountAmount      Float       @default(0)
+  status              String      @default("PENDING")
+  stripeSessionId     String?     @unique
+  stripePaymentIntent String?     @unique
+  stripeCustomerId    String?
+  webhookProcessedAt  DateTime?
+  webhookEventId      String?     @unique
+  shippingAddress     Json?
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  shippingType        String?
+  shippingAmount      Float       @default(0)
+  source              String      @default("website")
+  createdBy           String?
+  user                user?       @relation(fields: [userId], references: [id])
+  items               OrderItem[]
+  payments            Payment[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([stripeSessionId])
+  @@index([stripePaymentIntent])
+  @@index([source])
+  @@index([createdAt])
+}
+
+model coupon {
+  id            String   @id @default(uuid())
+  name          String
+  code          String   @unique
+  discountValue Float
+  usageLimit    Int?
+  usedCount     Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String
+  productId   String?
+  productSku  String
+  productName String
+  unitPrice   Float
+  quantity    Int
+  totalPrice  Float
+  currency    String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     product? @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Payment {
+  id             String   @id @default(uuid())
+  orderId        String
+  provider       String   @default("stripe")
+  amount         Float
+  currency       String
+  status         String
+  stripeEventId  String?  @unique
+  stripeChargeId String?
+  failureReason  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([stripeEventId])
+  @@index([createdAt])
+}
+
+model role {
+  id               String            @id @default(uuid())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  name             String            @unique
+  admins           admin[]
+  roleTranslations roleTranslation[]
+  users            user[]
+}
+
+model roleTranslation {
+  id        String   @id @default(uuid())
+  roleId    String
+  name      String
+  lang      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, lang])
+}
+
+model admin {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  roleId    String?
+  status    String   @default("ACTIVE")
+  fcmToken  String?
+  role      role?    @relation(fields: [roleId], references: [id])
+}
+
+model banner {
+  id         String   @id @default(uuid())
+  image      String
+  createdAt  DateTime @default(now())
+  targetId   String?
+  targetType String?
+}
+
+model review {
+  id        String   @id @default(uuid())
+  productId String
+  userId    String?
+  rating    Float
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      user?    @relation(fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model shippingMethod {
+  id             String   @id @default(uuid())
+  price          Float
+  type           String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  currancy       String   @default("aed")
+  freeAboveOrder Float    @default(0)
+}
+
+model siteInfo {
+  id                   String                @id @default(uuid())
+  singletonKey         String                @unique @default("default")
+  email                String?
+  phone                String?
+  whatsapp             String?
+  codOpen              Boolean               @default(false)
+  contactMethods       Json?
+  socialLinks          Json?
+  extraInfo            Json?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  siteInfoTranslations siteInfoTranslation[]
+}
+
+model siteInfoTranslation {
+  id          String   @id @default(uuid())
+  siteInfoId  String
+  freeExchage String?
+  lang        String
+  siteName    String?
+  address     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  siteInfo    siteInfo @relation(fields: [siteInfoId], references: [id], onDelete: Cascade)
+
+  @@unique([siteInfoId, lang])
+  @@index([siteInfoId])
+}
+
+model sections {
+  id           String               @id @default(uuid())
+  trigger      String
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  translations sectionTranslation[]
+
+  @@index([trigger])
+}
+
+model sectionTranslation {
+  id             String   @id @default(uuid())
+  sectionId      String
+  lang           String
+  contentSection Json[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  section        sections @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@unique([sectionId, lang])
+  @@index([sectionId])
+}
