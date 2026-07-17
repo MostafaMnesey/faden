@@ -12,3 +12,4 @@ rayapharma-68e7a-firebase-adminsdk-fbsvc.json
 
 # Firebase Admin SDK JSON file
 rayapharma-68e7a-firebase-adminsdk-fbsvc-93e8e4b1c1.json
+src/configs/*firebase-adminsdk*.json
