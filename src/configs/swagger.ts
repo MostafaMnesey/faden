@@ -11,6 +11,10 @@ export const swaggerDocument = {
       url: "http://localhost:3011",
       description: "Local Server",
     },
+    {
+      url: "https://api.faden.digital",
+      description: "Production Server",
+    },
   ],
   tags: [
     { name: "System", description: "System status and health check endpoints" },
