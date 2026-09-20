@@ -1,416 +1,205 @@
-    V = conversions["USVString"](V, {
-        context: "Failed to set the 'action' property on 'HTMLFormElement': The provided value",
-        globals: globalObject
-      });
+import "dotenv/config";
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import pg from "pg";
 
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        esValue[implSymbol]["action"] = V;
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
+const connectionString = process.env.DATABASE_URL || "postgresql://faden_user:faden_password@localhost:55433/faden_db?schema=public";
+const pool = new pg.Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
-    get enctype() {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
+async function main() {
+  console.log("🌱 Starting seed...");
 
-      if (!exports.is(esValue)) {
-        
-        throw new globalObject.TypeError(
-          "'get enctype' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
+  // Clean existing data
+  await prisma.project.deleteMany();
+  await prisma.section.deleteMany();
+  await prisma.service.deleteMany();
+  await prisma.client.deleteMany();
+  await prisma.equipment.deleteMany();
+  await prisma.gallery.deleteMany();
 
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        return esValue[implSymbol]["enctype"];
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    set enctype(V) {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'set enctype' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      V = conversions["DOMString"](V, {
-        context: "Failed to set the 'enctype' property on 'HTMLFormElement': The provided value",
-        globals: globalObject
-      });
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        esValue[implSymbol]["enctype"] = V;
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    get method() {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'get method' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        return esValue[implSymbol]["method"];
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    set method(V) {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'set method' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      V = conversions["DOMString"](V, {
-        context: "Failed to set the 'method' property on 'HTMLFormElement': The provided value",
-        globals: globalObject
-      });
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        esValue[implSymbol]["method"] = V;
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    get name() {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'get name' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        const value = esValue[implSymbol]._reflectGetTheContentAttribute("name");
-        return value === null ? "" : value;
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    set name(V) {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'set name' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      V = conversions["DOMString"](V, {
-        context: "Failed to set the 'name' property on 'HTMLFormElement': The provided value",
-        globals: globalObject
-      });
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        esValue[implSymbol]._reflectSetTheContentAttribute("name", V);
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    get noValidate() {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'get noValidate' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        return esValue[implSymbol]._reflectGetTheContentAttribute("novalidate") !== null;
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    set noValidate(V) {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'set noValidate' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      V = conversions["boolean"](V, {
-        context: "Failed to set the 'noValidate' property on 'HTMLFormElement': The provided value",
-        globals: globalObject
-      });
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        if (V) {
-          esValue[implSymbol]._reflectSetTheContentAttribute("novalidate", "");
-        } else {
-          esValue[implSymbol]._reflectDeleteTheContentAttribute("novalidate");
-        }
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    get target() {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'get target' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        const value = esValue[implSymbol]._reflectGetTheContentAttribute("target");
-        return value === null ? "" : value;
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    set target(V) {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'set target' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      V = conversions["DOMString"](V, {
-        context: "Failed to set the 'target' property on 'HTMLFormElement': The provided value",
-        globals: globalObject
-      });
-
-      ceReactionsPreSteps_jsdom_living_helpers_custom_elements(globalObject);
-      try {
-        esValue[implSymbol]._reflectSetTheContentAttribute("target", V);
-      } finally {
-        ceReactionsPostSteps_jsdom_living_helpers_custom_elements(globalObject);
-      }
-    }
-
-    get elements() {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'get elements' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      return utils.getSameObject(this, "elements", () => {
-        return utils.tryWrapperForImpl(esValue[implSymbol]["elements"]);
-      });
-    }
-
-    get length() {
-      const esValue = this !== null && this !== undefined ? this : globalObject;
-
-      if (!exports.is(esValue)) {
-        throw new globalObject.TypeError(
-          "'get length' called on an object that is not a valid instance of HTMLFormElement."
-        );
-      }
-
-      return esValue[implSymbol]["length"];
-    }
-  }
-  Object.defineProperties(HTMLFormElement.prototype, {
-    submit: { enumerable: true },
-    requestSubmit: { enumerable: true },
-    reset: { enumerable: true },
-    checkValidity: { enumerable: true },
-    reportValidity: { enumerable: true },
-    acceptCharset: { enumerable: true },
-    action: { enumerable: true },
-    enctype: { enumerable: true },
-    method: { enumerable: true },
-    name: { enumerable: true },
-    noValidate: { enumerable: true },
-    target: { enumerable: true },
-    elements: { enumerable: true },
-    length: { enumerable: true },
-    [Symbol.toStringTag]: { value: "HTMLFormElement", configurable: true },
-    [Symbol.iterator]: { value: globalObject.Array.prototype[Symbol.iterator], configurable: true, writable: true }
+  // 1. Create Services & Sections
+  const generalContracting = await prisma.service.create({
+    data: {
+      id: "srv_general_contracting",
+      name: "General Contracting",
+      slug: "general-contracting",
+      description: "Comprehensive construction and contracting services for commercial and residential developments.",
+      updatedAt: new Date(),
+      sections: {
+        create: [
+          {
+            id: "sec_overview_1",
+            title: "Overview & Construction Capabilities",
+            subtitle: "Turnkey EPC Solutions",
+            type: "OVERVIEW",
+            content: { text: "We deliver full-scale contracting services from ground excavation to final structural completion." },
+            img: "/uploads/sections/overview1.jpg",
+            order: 1,
+          },
+        ],
+      },
+    },
   });
-  ctorRegistry[interfaceName] = HTMLFormElement;
 
-  Object.defineProperty(globalObject, interfaceName, {
-    configurable: true,
-    writable: true,
-    value: HTMLFormElement
+  const infrastructure = await prisma.service.create({
+    data: {
+      id: "srv_infrastructure",
+      name: "Infrastructure & Earthworks",
+      slug: "infrastructure-earthworks",
+      description: "Large scale civil engineering, excavation, roadworks, and foundational infrastructure.",
+      updatedAt: new Date(),
+      sections: {
+        create: [
+          {
+            id: "sec_infra_1",
+            title: "Infrastructure Capabilities",
+            subtitle: "Earthworks & Roads",
+            type: "OVERVIEW",
+            content: { text: "State-of-the-art heavy machinery fleet for complex civil earthworks." },
+            img: "/uploads/sections/infra1.jpg",
+            order: 1,
+          },
+        ],
+      },
+    },
   });
-};
 
-const proxyHandlerCache = new WeakMap();
-class ProxyHandler {
-  constructor(globalObject) {
-    this._globalObject = globalObject;
-  }
+  // 2. Create Clients
+  await prisma.client.createMany({
+    data: [
+      {
+        id: "cli_aramco",
+        name: "Saudi Aramco",
+        logo: "/uploads/clients/aramco.png",
+        websiteUrl: "https://www.aramco.com",
+        category: "Energy & Industrial",
+        order: 1,
+        updatedAt: new Date(),
+      },
+      {
+        id: "cli_redsea",
+        name: "Red Sea Global",
+        logo: "/uploads/clients/redsea.png",
+        websiteUrl: "https://www.redseaglobal.com",
+        category: "Real Estate & Tourism",
+        order: 2,
+        updatedAt: new Date(),
+      },
+    ],
+  });
 
-  get(target, P, receiver) {
-    if (typeof P === "symbol") {
-      return Reflect.get(target, P, receiver);
-    }
-    const desc = this.getOwnPropertyDescriptor(target, P);
-    if (desc === undefined) {
-      const parent = Object.getPrototypeOf(target);
-      if (parent === null) {
-        return undefined;
-      }
-      return Reflect.get(target, P, receiver);
-    }
-    if (!desc.get && !desc.set) {
-      return desc.value;
-    }
-    const getter = desc.get;
-    if (getter === undefined) {
-      return undefined;
-    }
-    return Reflect.apply(getter, receiver, []);
-  }
+  // 3. Create Equipment
+  await prisma.equipment.createMany({
+    data: [
+      {
+        id: "eq_cat_excavator",
+        name: "CAT 349 Excavator",
+        count: 12,
+        img: "/uploads/equipment/cat349.jpg",
+        category: "Heavy Equipment",
+        order: 1,
+        updatedAt: new Date(),
+      },
+      {
+        id: "eq_tower_crane",
+        name: "Liebherr 280 EC-H Tower Crane",
+        count: 6,
+        img: "/uploads/equipment/crane.jpg",
+        category: "Lifting Equipment",
+        order: 2,
+        updatedAt: new Date(),
+      },
+    ],
+  });
 
-  has(target, P) {
-    if (typeof P === "symbol") {
-      return Reflect.has(target, P);
-    }
-    const desc = this.getOwnPropertyDescriptor(target, P);
-    if (desc !== undefined) {
-      return true;
-    }
-    const parent = Object.getPrototypeOf(target);
-    if (parent !== null) {
-      return Reflect.has(parent, P);
-    }
-    return false;
-  }
+  // 4. Create Gallery Items
+  await prisma.gallery.createMany({
+    data: [
+      {
+        id: "gal_site_1",
+        title: "Riyadh Tower Site Progress",
+        description: "Foundation and core structural concrete pouring phase",
+        img: "/uploads/gallery/site1.jpg",
+        order: 1,
+        updatedAt: new Date(),
+      },
+      {
+        id: "gal_fleet_1",
+        title: "Faden Equipment Fleet",
+        description: "Heavy machinery array on excavation site",
+        img: "/uploads/gallery/fleet1.jpg",
+        order: 2,
+        updatedAt: new Date(),
+      },
+    ],
+  });
 
-  ownKeys(target) {
-    const keys = new Set();
+  // 5. Create Projects
+  await prisma.project.create({
+    data: {
+      id: "prj_riyadh_tower",
+      title: "Riyadh Financial Tower",
+      slug: "riyadh-financial-tower",
+      img: "/uploads/projects/riyadh_tower_main.jpg",
+      serviceId: generalContracting.id,
+      client: "Ministry of Housing",
+      consultant: "Dar Al-Handasah",
+      description: "A 35-story modern commercial skyscraper located in the heart of Riyadh.",
+      duration: "24 Months",
+      floors: "35 Floors",
+      foundationDepth: "18 meters",
+      location: "Riyadh, KSA",
+      owner: "Faden Real Estate",
+      partnershipType: "Joint Venture",
+      projectType: "Commercial Skyscraper",
+      scope: "Turnkey EPC Contracting",
+      status: "Completed",
+      structuralType: "Reinforced Concrete Core",
+      totalArea: "45,000 sqm",
+      highlights: ["Post-tensioned slabs", "LEED Gold certified structure"],
+      images: ["/uploads/projects/riyadh_tower_1.jpg", "/uploads/projects/riyadh_tower_2.jpg"],
+      keyAchievements: ["Completed 2 months ahead of schedule", "Zero LTI safety milestone"],
+      technicalSpecs: { concreteGrade: "C60", steelTonnage: "4500 Tons" },
+      updatedAt: new Date(),
+    },
+  });
 
-    for (const key of target[implSymbol][utils.supportedPropertyIndices]) {
-      keys.add(`${key}`);
-    }
+  await prisma.project.create({
+    data: {
+      id: "prj_highway_expansion",
+      title: "Southern Highway Expansion",
+      slug: "southern-highway-expansion",
+      img: "/uploads/projects/highway_main.jpg",
+      serviceId: infrastructure.id,
+      client: "Ministry of Transport",
+      consultant: "Khatib & Alami",
+      description: "120km highway expansion including bridges, underpasses, and civil earthworks.",
+      duration: "36 Months",
+      location: "Jeddah - Makkah, KSA",
+      owner: "Ministry of Transport",
+      partnershipType: "Main Contractor",
+      projectType: "Infrastructure & Highway",
+      scope: "Civil & Earthworks",
+      status: "In Progress",
+      totalArea: "120 km",
+      highlights: ["High-durability asphalt paving", "Grade-separated interchanges"],
+      images: ["/uploads/projects/highway_1.jpg"],
+      keyAchievements: ["50km opened for early traffic"],
+      updatedAt: new Date(),
+    },
+  });
 
-    for (const key of Reflect.ownKeys(target)) {
-      keys.add(key);
-    }
-    return [...keys];
-  }
-
-  getOwnPropertyDescriptor(target, P) {
-    if (typeof P === "symbol") {
-      return Reflect.getOwnPropertyDescriptor(target, P);
-    }
-    let ignoreNamedProps = false;
-
-    if (utils.isArrayIndexPropName(P)) {
-      const index = P >>> 0;
-      const indexedValue = target[implSymbol][utils.indexedGet](index);
-      if (indexedValue !== null) {
-        return {
-          writable: false,
-          enumerable: true,
-          configurable: true,
-          value: utils.tryWrapperForImpl(indexedValue)
-        };
-      }
-      ignoreNamedProps = true;
-    }
-
-    return Reflect.getOwnPropertyDescriptor(target, P);
-  }
-
-  set(target, P, V, receiver) {
-    if (typeof P === "symbol") {
-      return Reflect.set(target, P, V, receiver);
-    }
-    // The `receiver` argument refers to the Proxy exotic object or an object
-    // that inherits from it, whereas `target` refers to the Proxy target:
-    if (target[implSymbol][utils.wrapperSymbol] === receiver) {
-      const globalObject = this._globalObject;
-    }
-    let ownDesc;
-
-    if (utils.isArrayIndexPropName(P)) {
-      const index = P >>> 0;
-      const indexedValue = target[implSymbol][utils.indexedGet](index);
-      if (indexedValue !== null) {
-        ownDesc = {
-          writable: false,
-          enumerable: true,
-          configurable: true,
-          value: utils.tryWrapperForImpl(indexedValue)
-        };
-      }
-    }
-
-    if (ownDesc === undefined) {
-      ownDesc = Reflect.getOwnPropertyDescriptor(target, P);
-    }
-    return utils.ordinarySetWithOwnDescriptor(target, P, V, receiver, ownDesc);
-  }
-
-  defineProperty(target, P, desc) {
-    if (typeof P === "symbol") {
-      return Reflect.defineProperty(target, P, desc);
-    }
-
-    const globalObject = this._globalObject;
-
-    if (utils.isArrayIndexPropName(P)) {
-      return false;
-    }
-
-    return Reflect.defineProperty(target, P, desc);
-  }
-
-  deleteProperty(target, P) {
-    if (typeof P === "symbol") {
-      return Reflect.deleteProperty(target, P);
-    }
-
-    const globalObject = this._globalObject;
-
-    if (utils.isArrayIndexPropName(P)) {
-      const index = P >>> 0;
-      return !(target[implSymbol][utils.indexedGet](index) !== null);
-    }
-
-    return Reflect.deleteProperty(target, P);
-  }
-
-  preventExtensions() {
-    return false;
-  }
+  console.log("✅ Database seeding completed successfully!");
 }
 
-const Impl = require("../../jsdom/living/nodes/HTMLFormElement-impl.js");
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      -- AlterTable
-ALTER TABLE "schedule" ADD COLUMN     "end_Time" TIMESTAMP(3),
-ADD COLUMN     "start_Time" TIMESTAMP(3);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+main()
+  .catch((e) => {
+    console.error("❌ Seeding failed:", e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+    await pool.end();
+  });
