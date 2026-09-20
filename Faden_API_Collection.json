@@ -1,0 +1,426 @@
+{
+  "info": {
+    "_postman_id": "faden-api-collection-v1",
+    "name": "Faden API Collection",
+    "description": "Complete Postman collection for Faden Contracting Backend APIs (Services & Gallery modules for Dashboard and Public Website).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Admin Dashboard",
+      "item": [
+        {
+          "name": "Services",
+          "item": [
+            {
+              "name": "Create Service",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"General Contracting\",\n  \"slug\": \"general-contracting\",\n  \"description\": \"Comprehensive construction and building services\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services"]
+                }
+              }
+            },
+            {
+              "name": "Get All Services (Paginated)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services?page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "10" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Service By ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "SERVICE_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Service",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"General Contracting & Building\",\n  \"description\": \"Updated service description\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "SERVICE_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Service",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "SERVICE_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Add Section to Service",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Overview", "type": "text" },
+                    { "key": "subtitle", "value": "Detailed insights into our process", "type": "text" },
+                    { "key": "type", "value": "OVERVIEW", "type": "text" },
+                    { "key": "content", "value": "{\"text\": \"Our overview section details...\"}", "type": "text" },
+                    { "key": "order", "value": "1", "type": "text" },
+                    { "key": "img", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/:id/sections",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", ":id", "sections"],
+                  "variable": [
+                    { "key": "id", "value": "SERVICE_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Section",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Updated Overview Title", "type": "text" },
+                    { "key": "order", "value": "2", "type": "text" },
+                    { "key": "img", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/sections/:sectionId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", "sections", ":sectionId"],
+                  "variable": [
+                    { "key": "sectionId", "value": "SECTION_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Section",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/sections/:sectionId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", "sections", ":sectionId"],
+                  "variable": [
+                    { "key": "sectionId", "value": "SECTION_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Add Project to Service",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "American International School", "type": "text" },
+                    { "key": "img", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/:id/projects",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", ":id", "projects"],
+                  "variable": [
+                    { "key": "id", "value": "SERVICE_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Project",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Updated Project Title", "type": "text" },
+                    { "key": "img", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/projects/:projectId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", "projects", ":projectId"],
+                  "variable": [
+                    { "key": "projectId", "value": "PROJECT_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Project",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/services/projects/:projectId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "services", "projects", ":projectId"],
+                  "variable": [
+                    { "key": "projectId", "value": "PROJECT_UUID_HERE" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gallery",
+          "item": [
+            {
+              "name": "Create Gallery Item",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Modern Villa Architecture", "type": "text" },
+                    { "key": "description", "value": "A luxury residential project design in Riyadh", "type": "text" },
+                    { "key": "order", "value": "1", "type": "text" },
+                    { "key": "img", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/gallery",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "gallery"]
+                }
+              }
+            },
+            {
+              "name": "Get All Gallery Items (Paginated)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/gallery?page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "gallery"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "10" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Gallery Item By ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/gallery/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "gallery", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "GALLERY_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Gallery Item",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "title", "value": "Updated Villa Architecture Title", "type": "text" },
+                    { "key": "description", "value": "Updated description", "type": "text" },
+                    { "key": "order", "value": "2", "type": "text" },
+                    { "key": "img", "type": "file", "src": [] }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/gallery/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "gallery", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "GALLERY_UUID_HERE" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Gallery Item",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/dashboard/gallery/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["dashboard", "gallery", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "GALLERY_UUID_HERE" }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Public Website",
+      "item": [
+        {
+          "name": "Services",
+          "item": [
+            {
+              "name": "Get Public Services (Paginated)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/website/services?page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["website", "services"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "10" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Service By Slug",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/website/services/:slug",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["website", "services", ":slug"],
+                  "variable": [
+                    { "key": "slug", "value": "general-contracting" }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gallery",
+          "item": [
+            {
+              "name": "Get Public Gallery Items (Paginated)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/website/gallery?page=1&limit=9",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["website", "gallery"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "9" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Public Gallery Item By ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/website/gallery/:id",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["website", "gallery", ":id"],
+                  "variable": [
+                    { "key": "id", "value": "GALLERY_UUID_HERE" }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/test",
+          "host": ["{{baseUrl}}"],
+          "path": ["test"]
+        }
+      }
+    }
+  ]
+}

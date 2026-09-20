@@ -19,6 +19,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+
 # Non-root user for security
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 
@@ -36,7 +37,7 @@ RUN mkdir -p /app/uploads && chown -R nextjs:nodejs /app/uploads
 # Ensure production environment
 ENV NODE_ENV=production
 
-EXPOSE 5000
+EXPOSE 3011
 
 # Run start app
 CMD ["npm", "start"]
