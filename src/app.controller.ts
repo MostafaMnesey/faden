@@ -27,7 +27,7 @@ const bootstrap = async () => {
   }
 
   const app = express();
-  const port = process.env.PORT || 3001;
+  const port = process.env.PORT || 3011;
 
   const allowedOrigins = process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
@@ -75,7 +75,7 @@ const bootstrap = async () => {
 
   app.use(globalErrorHandling);
 
-  app.listen(port, () => {
+  app.listen(Number(port), "0.0.0.0", () => {
     console.log(`Server listening on port ${port}`);
   });
 };

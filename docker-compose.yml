@@ -84,7 +84,7 @@ services:
         condition: service_started
 
     ports:
-      - "8000:8000"
+      - "8000:3011"
 
     volumes:
       - ./uploads:/app/uploads
